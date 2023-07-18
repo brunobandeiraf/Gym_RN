@@ -1,1 +1,1 @@
-# ignite-gym_RN
+# ignite-gym
