@@ -1,6 +1,8 @@
 import { TouchableOpacity } from 'react-native';
 import { Heading, HStack, Text, VStack, Icon } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
+// MaterialIcons - biblioteca de itens
+// para funcionar precisa do Icon 
 
 import { UserPhoto } from './UserPhoto';
 
@@ -17,7 +19,7 @@ export function HomeHeader() {
         mr={4} //margin-right
       />
       
-      <VStack>
+      <VStack flex={1}>
         <Text color="gray.100" fontSize="md">
           Olá,
         </Text>
