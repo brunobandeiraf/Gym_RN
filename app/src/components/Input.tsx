@@ -13,11 +13,13 @@ export function Input({ ...rest }: IInputProps) {
       fontFamily="body" //mesma font do body
       mb={4} //margin-bottom
       placeholderTextColor="gray.300"
-      _focus={{
+      
+      _focus={{ //foco no input
         bgColor: 'gray.700',
         borderWidth: 1,
         borderColor: 'green.500'
       }}
+      
       {...rest} 
     />
   );
