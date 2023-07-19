@@ -5,7 +5,7 @@ type Props  = IPressableProps & {
   name: string;
 }
 
-export function Group({ name }: Props) {
+export function Group({ name, ...rest }: Props) {
   return (
       
       <Pressable
@@ -17,6 +17,12 @@ export function Group({ name }: Props) {
           justifyContent="center"
           alignItems="center"
           overflow="hidden" // manter dentro dos limites do botão
+          
+          _pressed={{
+            borderColor: 'green.500',
+            borderWidth: 1
+          }}
+
           {...rest}
       >
         <Text
