@@ -1,4 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import { VStack, Image, Text, Center, Heading, ScrollView } from "native-base";
+
+// Contexto de navegação - sem autenticação
+import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
 
 import LogoSvg from '@assets/logo.svg';
 import BackgroundImg from '@assets/background.png';
@@ -7,14 +11,23 @@ import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 
 export function SignIn() {
+
+  const navigation = useNavigation<AuthNavigatorRoutesProps>();
+
+  // Função para chamar rota da tela signUp
+  function handleNewAccount() {
+    navigation.navigate('signUp');
+  }
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
 
-      <VStack flex={1} bg="gray.700" px={10}>
+      <VStack flex={1} px={10} pb={16}>
         {/* px padding
-        bg é background */}
+            bg é background */}
           <Image 
               source={BackgroundImg}
+              defaultSource={BackgroundImg}
               alt="Pessoas treinando"
               resizeMode="contain"
               position="absolute"
@@ -54,8 +67,9 @@ export function SignIn() {
         </Center>
 
         <Button 
-          title="Criar Conta" 
-          variant="outline" 
+            title="Criar Conta" 
+            variant="outline"
+            onPress={handleNewAccount}
         />
       </VStack>
     </ScrollView>

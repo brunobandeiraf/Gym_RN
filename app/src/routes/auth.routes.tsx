@@ -15,7 +15,8 @@ const { Navigator, Screen } = createNativeStackNavigator<AuthRoutes>();
 
 export function AuthRoutes() {
   return (
-    <Navigator>
+    // headerShown: false - remover cabeçalho superior da rota
+    <Navigator screenOptions={{ headerShown: false }}>
       <Screen 
         name="signIn"
         component={SignIn}
