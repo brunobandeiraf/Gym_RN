@@ -19,8 +19,8 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      
-      {fontsLoaded ? <Routes /> : <Loading />}
+      <Routes />
+      {/* {fontsLoaded ? <Routes /> : <Loading />} */}
 
     </NativeBaseProvider>
   );
