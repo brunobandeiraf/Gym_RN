@@ -15,7 +15,10 @@ npx expo install expo-font @expo-google-fonts/roboto
 ## SVG with components
 npm i react-native-svg-transformer --save-dev
 
-# React Navigation
+## React Navigation
 - npm install @react-navigation/native
 - npx expo install react-native-screens react-native-safe-area-context
 - npm install @react-navigation/native-stack
+
+## Bottom Tabs Navigation
+npm install @react-navigation/bottom-tabs
