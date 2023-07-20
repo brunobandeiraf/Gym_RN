@@ -37,8 +37,10 @@ export function History() {
           </Heading>
         )}
         px={8}
-        
+
+        // Quando não estiver itens, adicionar as condições ...flex...
         contentContainerStyle={exercises.length === 0 && { flex: 1, justifyContent: 'center' }}
+        // Quando não estiver itens na lista
         ListEmptyComponent={() => (
           <Text color="gray.100" textAlign="center">
             Não há exercícios registrados ainda. {'\n'}
