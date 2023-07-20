@@ -1,8 +1,9 @@
-import { FlatList, HStack, VStack } from 'native-base';
+import { useState } from 'react';
+import { FlatList, Heading, HStack, Text, VStack } from 'native-base';
 
 import { Group } from '@components/Group';
 import { HomeHeader } from '@components/HomeHeader';
-import { useState } from 'react';
+import { ExerciseCard } from '@components/ExerciseCard';
 
 export function Home() {
 
@@ -32,6 +33,25 @@ export function Home() {
         my={10} // margin vertical 
         maxH={10} // Máximo da altura será 10, senão oculta espaço de toda tela
       />
+
+      <VStack px={8}> 
+       {/* justifyContent="space-between" - cada um em um canto 
+        mb - margin-bottom 
+        */}
+        <HStack justifyContent="space-between" mb={5}> 
+          <Heading color="gray.200" fontSize="md">
+            Exercícios
+          </Heading>
+
+          <Text color="gray.200" fontSize="sm">
+            4
+          </Text>
+        </HStack>
+
+        <ExerciseCard />
+        <ExerciseCard />
+        
+      </VStack>
 
     </VStack>
   );
