@@ -21,12 +21,16 @@ export function History() {
     <VStack flex={1}>
       <ScreenHeader title='Histórico' />
 
+    {/* Mostra os dados por seções
+      SectionList exige que os dados tenham um título e depois os dados
+    */}
       <SectionList 
         sections={exercises}
         keyExtractor={item => item}
         renderItem={({ item }) => (
           <HistoryCard />
         )}
+        // renderSectionHeader - renderiza as seções, agrupadas
         renderSectionHeader={({ section }) => (
           <Heading color="gray.200" fontSize="md" mt={10} mb={3}>
             {section.title}
@@ -34,7 +38,7 @@ export function History() {
         )}
         px={8}
       />
-      
+
     </VStack>
   );
 }
