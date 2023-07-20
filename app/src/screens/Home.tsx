@@ -21,7 +21,8 @@ export function Home() {
         renderItem={({ item }) => ( // Percorre um a um dos itens
           <Group 
             name={item}
-            isActive={groupSelected === item}
+            // isActive verifica o grupo muscular ativo
+            isActive={groupSelected.toLocaleUpperCase() === item.toLocaleUpperCase()}
             onPress={() => setGroupSelected(item)}
           />
         )}
