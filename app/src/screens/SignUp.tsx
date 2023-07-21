@@ -81,10 +81,11 @@ export function SignUp() {
                   placeholder="Nome"
                   onChangeText={onChange}
                   value={value}
+
+                  errorMessage={errors.name?.message}
                 />
             )}/>
-            {/*  errors.name? - pode ser que exista ou não*/}
-            <Text color="white">{errors.name?.message}</Text>
+
             {/* <Input 
               placeholder="E-mail" 
               keyboardType="email-address"
@@ -112,9 +113,10 @@ export function SignUp() {
                   autoCapitalize="none"
                   onChangeText={onChange}
                   value={value}
+
+                  errorMessage={errors.email?.message}
                 />
               )}/>
-              <Text color="white">{errors.email?.message}</Text>
 
             {/* <Input 
               placeholder="Senha" 
