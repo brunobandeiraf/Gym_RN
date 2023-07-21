@@ -12,18 +12,27 @@ const PHOTO_SIZE = 33;
 
 export function Profile() {
 
-  // UseState para ter o Skeleton
+  // useState para ter o Skeleton
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
-  
+  // useState para alterar a foto selecionada
+  const [userPhoto, setUserPhoto] = useState('https://github.com/brunobandeiraf.png');
+
   // async porque pode levar algum tempo
   async function handleUserPhotoSelected(){
     //launchImageLibraryAsync acessa o album do usuário
-    await ImagePicker.launchImageLibraryAsync({
+    const photoSelected = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images, // Tipo de conteúdo que pode selecionar
       quality: 1, //de 0 a 1
       aspect: [4, 4], // o tamanho da imagem - 4x4
-      allowsEditing: true // é possível editar a imagem após a seleção?
+      allowsEditing: true, // é possível editar a imagem após a seleção?
     });
+
+    if(photoSelected.canceled) {
+      return; //selecionou a imagem e cancelou
+    }
+
+    // Se selecionou a foto, o useState faz a alteração do estado
+    setUserPhoto(photoSelected.assets[0].uri);
   }
 
   return (
@@ -45,7 +54,7 @@ export function Profile() {
               />
             :
               <UserPhoto 
-                source={{ uri: 'https://github.com/brunobandeira.png' }}
+                source={{ uri: userPhoto }}
                 alt="Foto do perfil do usuário"
                 size={PHOTO_SIZE}
               />
