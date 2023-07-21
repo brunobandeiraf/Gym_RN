@@ -15,8 +15,15 @@ export function Profile() {
   // UseState para ter o Skeleton
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
   
+  // async porque pode levar algum tempo
   async function handleUserPhotoSelected(){
-    await ImagePicker.launchImageLibraryAsync();
+    //launchImageLibraryAsync acessa o album do usuário
+    await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, // Tipo de conteúdo que pode selecionar
+      quality: 1, //de 0 a 1
+      aspect: [4, 4], // o tamanho da imagem - 4x4
+      allowsEditing: true // é possível editar a imagem após a seleção?
+    });
   }
 
   return (
