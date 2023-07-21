@@ -14,7 +14,7 @@ export function SignUp() {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
   // const [passwordConfirm, setPasswordConfirm] = useState('');
-  const { control } = useForm();
+  const { control, handleSubmit } = useForm();
 
   const navigation = useNavigation();
 
@@ -22,7 +22,12 @@ export function SignUp() {
     navigation.goBack();
   }
 
-  function handleSignUp() {
+  function handleSignUp(data: any) {
+    
+
+    
+    //console.log({ data })
+    
     // console.log({
     //   name, email, password, passwordConfirm
     // });
@@ -110,7 +115,6 @@ export function SignUp() {
               )}
             />
 
-
             {/* <Input 
               placeholder="Confirmar a Senha" 
               secureTextEntry
@@ -126,13 +130,17 @@ export function SignUp() {
                   secureTextEntry
                   onChangeText={onChange}
                   value={value}
+                  onSubmitEditing={handleSubmit(handleSignUp)}
+                  returnKeyType="send" // possibilita enviar tendo o foco neste campo
                 />
               )}
             />
 
             <Button 
               title="Criar e acessar" 
-              onPress={handleSignUp}
+              //handleSubmit é a função interna que ativa o hook
+              //handleSignUp é a função que recebe
+              onPress={handleSubmit(handleSignUp)}
             />
           </Center>
 
