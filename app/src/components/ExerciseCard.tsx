@@ -20,7 +20,7 @@ export function ExerciseCard({ ...rest }: Props) {
           h={16}
           rounded="md" // Cantos arredondados
           mr={4} //margin-right
-          resizeMode="center" // imagem centralizada
+          resizeMode="cover" // imagem ajustada
         />
 
         {/* flex={1} para ocupar todo espaço e um ficar de cada lado */}
