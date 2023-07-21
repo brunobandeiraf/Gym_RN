@@ -23,6 +23,12 @@ export function Input({ errorMessage = null, isInvalid, ...rest }: Props) {
         mb={4} //margin-bottom
         placeholderTextColor="gray.300"
         
+        isInvalid={invalid} // customizar o input se estiver invalid
+        _invalid={{
+          borderWidth: 1,
+          borderColor: "red.500"
+        }}
+
         _focus={{ //foco no input
           bgColor: 'gray.700',
           borderWidth: 1,
@@ -35,7 +41,7 @@ export function Input({ errorMessage = null, isInvalid, ...rest }: Props) {
       <FormControl.ErrorMessage>
         {errorMessage}
       </FormControl.ErrorMessage>
-      
+
     </FormControl>
   );
 }

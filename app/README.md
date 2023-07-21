@@ -45,3 +45,6 @@
 - npm install react-hook-form
 - Todos os valores são enviados de uma única vez
 - https://react-hook-form.com/
+
+## Validação por Schema - Yup
+ - npm install @hookform/resolvers yup
