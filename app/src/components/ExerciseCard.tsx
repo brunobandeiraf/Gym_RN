@@ -25,7 +25,7 @@ export function ExerciseCard({ ...rest }: Props) {
 
         {/* flex={1} para ocupar todo espaço e um ficar de cada lado */}
         <VStack flex={1}>
-            <Heading fontSize="lg" color="white">
+            <Heading fontSize="lg" color="white" fontFamily="heading">
                 Remanda unilateral
             </Heading>
         

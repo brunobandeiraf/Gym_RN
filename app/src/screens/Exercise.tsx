@@ -32,7 +32,7 @@ export function Exercise() {
 
         {/* justifyContent="space-between" - um item para cada lado */}
         <HStack justifyContent="space-between" mt={4} mb={8} alignItems="center">
-          <Heading color="gray.100" fontSize="lg"  flexShrink={1}>
+          <Heading color="gray.100" fontSize="lg"  flexShrink={1} fontFamily="heading">
             {/* flexShrink={1} - quebra pra linha de baixo sem influenciar no outro item */}
             Puxada frontal
           </Heading>
