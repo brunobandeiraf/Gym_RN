@@ -40,3 +40,8 @@
 - npx expo install expo-file-system
 - Retorna inf. sobre arquivos do usuários, como imagem...
 - https://docs.expo.dev/versions/latest/sdk/filesystem/
+
+## React Hook Forms
+- npm install react-hook-form
+- Todos os valores são enviados de uma única vez
+- https://react-hook-form.com/

@@ -56,6 +56,7 @@ export function SignUp() {
 
             <Input 
               placeholder="Nome"
+              //Sempre que o setName mudar, o onChangeText vai refletir
               onChangeText={setName}
             />
 
@@ -75,6 +76,7 @@ export function SignUp() {
             <Input 
               placeholder="Confirmar a Senha" 
               secureTextEntry
+
               onChangeText={setPasswordConfirm}
             />
 
