@@ -21,8 +21,9 @@ export function Profile() {
       <ScrollView>
         <Center mt={6} px={10}>
         {
-            photoIsLoading ?
-              // Efeito para carregar uma imagem alternando cores na ausência de uma foto ou enquanto carrega
+          // Efeito para carregar uma imagem alternando cores na ausência de uma foto ou enquanto carrega
+          // Se photoIsLoading estiver true aparece Skeleton : senão, UserPhoto
+          photoIsLoading ?
               <Skeleton 
                 w={PHOTO_SIZE}
                 h={PHOTO_SIZE}
