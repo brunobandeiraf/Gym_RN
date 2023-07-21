@@ -1,11 +1,11 @@
 # Create Project - ts
-npx create-expo-app --template
+- npx create-expo-app --template
 
 ## Babel alias
-npm install --save-dev babel-plugin-module-resolver
+- npm install --save-dev babel-plugin-module-resolver
 
 ## Font Google - Roboto
-npx expo install expo-font @expo-google-fonts/roboto
+- npx expo install expo-font @expo-google-fonts/roboto
 
 ## NativeBase
 - npm install native-base
@@ -13,7 +13,7 @@ npx expo install expo-font @expo-google-fonts/roboto
 - npx expo install react-native-safe-area-context@3.3.2
 
 ## SVG with components
-npm i react-native-svg-transformer --save-dev
+- npm i react-native-svg-transformer --save-dev
 
 ## React Navigation
 - npm install @react-navigation/native
@@ -21,4 +21,17 @@ npm i react-native-svg-transformer --save-dev
 - npm install @react-navigation/native-stack
 
 ## Bottom Tabs Navigation
-npm install @react-navigation/bottom-tabs
+- npm install @react-navigation/bottom-tabs
+
+## Picker - add imagem da galeria
+- npx expo install expo-image-picker
+- https://docs.expo.dev/versions/latest/sdk/imagepicker/
+- adicionar no app.json
+"plugins": [
+    [
+    "expo-image-picker",
+    {
+        "photosPermission": "The app accesses your photos to let you share them with your friends."
+    }
+    ]
+],
