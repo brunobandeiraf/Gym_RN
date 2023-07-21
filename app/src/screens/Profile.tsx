@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Center, ScrollView, VStack, Skeleton, Text, Heading } from 'native-base';
+import { Center, ScrollView, VStack, Skeleton, Text, Heading, useTheme } from 'native-base';
 
 import { ScreenHeader } from '@components/ScreenHeader';
 import { UserPhoto } from '@components/UserPhoto';
@@ -18,7 +18,7 @@ export function Profile() {
     <VStack flex={1}>
       <ScreenHeader title='Perfil' />
 
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ paddingBottom: 36 }}>
         <Center mt={6} px={10}>
         {
           // Efeito para carregar uma imagem alternando cores na ausência de uma foto ou enquanto carrega
@@ -56,10 +56,7 @@ export function Profile() {
             isDisabled
           />
 
-        </Center>
-
-        <VStack px={10} mt={12} mb={9}>
-          <Heading color="gray.200" fontSize="md" mb={2}>
+          <Heading color="gray.200" fontSize="md" mb={2} alignSelf="flex-start" mt={12}>
             Alterar senha
           </Heading>
 
@@ -82,7 +79,7 @@ export function Profile() {
           />
 
           <Button title="Atualizar" mt={4} />
-        </VStack>
+        </Center>
 
       </ScrollView>
     </VStack>
