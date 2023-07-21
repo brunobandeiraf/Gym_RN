@@ -9,19 +9,21 @@ import { THEME } from './src/theme';
 import { Loading } from '@components/Loading';
 
 export default function App() {
+  // Carregar as fonts
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
 
   return (
     <NativeBaseProvider theme={THEME}>
-      
       <StatusBar 
         barStyle="light-content"
         backgroundColor="transparent"
         translucent
       />
+      {/* {
+        fontsLoaded 
+        ? <Routes /> : <Loading />
+      } */}
       <Routes />
-      {/* {fontsLoaded ? <Routes /> : <Loading />} */}
-
     </NativeBaseProvider>
   );
 }

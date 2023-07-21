@@ -41,8 +41,9 @@ export function Profile() {
       if(photoSelected.assets[0].uri){
         // Usa a biblioteca FileSystem para retornar as inf. do arquivo selecionado
         const photoInfo = await FileSystem.getInfoAsync(photoSelected.assets[0].uri);
-        //console.log(photoInfo);
-
+        console.log(photoInfo);
+        
+        //if(photoInfo.size && (photoInfo.size  / 1024 / 1024 ) > 2){
         if(photoInfo.exists && (photoInfo.size  / 1024 / 1024 ) > 5){
           // Se a imagem for acima de 5mb
           //return Alert.alert('Essa imagem é muito grande. Escolha uma de até 5MB.'); 
@@ -54,6 +55,7 @@ export function Profile() {
         }
 
         // Se selecionou a foto, o useState faz a alteração do estado
+        //setUserPhoto(photoSelected.uri);
         setUserPhoto(photoSelected.assets[0].uri);
       }
 

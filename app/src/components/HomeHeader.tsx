@@ -1,6 +1,7 @@
 import { TouchableOpacity } from 'react-native';
 import { Heading, HStack, Text, VStack, Icon } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
+
 // MaterialIcons - biblioteca de itens
 // para funcionar precisa do Icon 
 
@@ -25,7 +26,7 @@ export function HomeHeader() {
         </Text>
 
         <Heading color="gray.100" fontSize="md">
-          Bruno
+          Bruno Bandeira
         </Heading>
       </VStack>
 

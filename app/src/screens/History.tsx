@@ -13,7 +13,7 @@ export function History() {
     },
     {
       title: '27.08.22',
-      data: ["Puxada frontal"]
+      data: ["Agachamento Livre", "LegPress 45"]
     }
   ]);
 
