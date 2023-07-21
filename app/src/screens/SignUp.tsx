@@ -8,13 +8,20 @@ import BackgroundImg from '@assets/background.png';
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 
+type FormDataProps = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirm: string;
+}
+
 export function SignUp() {
 
   // const [name, setName] = useState('');
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
   // const [passwordConfirm, setPasswordConfirm] = useState('');
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>();
 
   const navigation = useNavigation();
 
@@ -22,11 +29,9 @@ export function SignUp() {
     navigation.goBack();
   }
 
-  function handleSignUp(data: any) {
+  function handleSignUp({ name, email, password, password_confirm }: FormDataProps) {
     
-
-    
-    //console.log({ data })
+    console.log({ name, email, password, password_confirm })
     
     // console.log({
     //   name, email, password, passwordConfirm
@@ -66,6 +71,11 @@ export function SignUp() {
             <Controller 
               control={control}
               name="name"
+
+              rules={{ // campo obrigatório e não envia sem o preenchimento. Mas sem mensagem
+                required: 'Informe o nome.'
+              }}
+
               render={({ field: { onChange, value } }) => (
                 <Input 
                   placeholder="Nome"
@@ -73,7 +83,8 @@ export function SignUp() {
                   value={value}
                 />
             )}/>
-
+            {/*  errors.name? - pode ser que exista ou não*/}
+            <Text color="white">{errors.name?.message}</Text>
             {/* <Input 
               placeholder="E-mail" 
               keyboardType="email-address"
