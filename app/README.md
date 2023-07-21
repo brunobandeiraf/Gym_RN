@@ -35,3 +35,8 @@
     }
     ]
 ],
+
+## FileSystem
+- npx expo install expo-file-system
+- Retorna inf. sobre arquivos do usuários, como imagem...
+- https://docs.expo.dev/versions/latest/sdk/filesystem/

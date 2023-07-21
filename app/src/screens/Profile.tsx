@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
-import { Center, ScrollView, VStack, Skeleton, Text, Heading } from 'native-base';
+import { Alert, TouchableOpacity } from 'react-native';
+import { Center, ScrollView, VStack, Skeleton, Text, Heading, useToast } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 import { ScreenHeader } from '@components/ScreenHeader';
 import { UserPhoto } from '@components/UserPhoto';
@@ -16,23 +17,51 @@ export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
   // useState para alterar a foto selecionada
   const [userPhoto, setUserPhoto] = useState('https://github.com/brunobandeiraf.png');
+  // useState do alerta toast.show({})
+  const toast = useToast();
+
 
   // async porque pode levar algum tempo
   async function handleUserPhotoSelected(){
-    //launchImageLibraryAsync acessa o album do usuário
-    const photoSelected = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images, // Tipo de conteúdo que pode selecionar
-      quality: 1, //de 0 a 1
-      aspect: [4, 4], // o tamanho da imagem - 4x4
-      allowsEditing: true, // é possível editar a imagem após a seleção?
-    });
+    
+    setPhotoIsLoading(true);
+    try {
+      //launchImageLibraryAsync acessa o album do usuário
+      const photoSelected = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images, // Tipo de conteúdo que pode selecionar
+        quality: 1, //de 0 a 1
+        aspect: [4, 4], // o tamanho da imagem - 4x4
+        allowsEditing: true, // é possível editar a imagem após a seleção?
+      });
 
-    if(photoSelected.canceled) {
-      return; //selecionou a imagem e cancelou
+      if(photoSelected.canceled) {
+        return; //selecionou a imagem e cancelou
+      }
+    
+      if(photoSelected.assets[0].uri){
+        // Usa a biblioteca FileSystem para retornar as inf. do arquivo selecionado
+        const photoInfo = await FileSystem.getInfoAsync(photoSelected.assets[0].uri);
+        //console.log(photoInfo);
+
+        if(photoInfo.exists && (photoInfo.size  / 1024 / 1024 ) > 5){
+          // Se a imagem for acima de 5mb
+          //return Alert.alert('Essa imagem é muito grande. Escolha uma de até 5MB.'); 
+          return toast.show({
+            title: 'Essa imagem é muito grande. Escolha uma de até 5MB.',
+            placement: 'top', //local que irá aparecer
+            bgColor: 'red.500'
+          })
+        }
+
+        // Se selecionou a foto, o useState faz a alteração do estado
+        setUserPhoto(photoSelected.assets[0].uri);
+      }
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setPhotoIsLoading(false)
     }
-
-    // Se selecionou a foto, o useState faz a alteração do estado
-    setUserPhoto(photoSelected.assets[0].uri);
   }
 
   return (
