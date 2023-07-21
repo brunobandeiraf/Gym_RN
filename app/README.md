@@ -48,3 +48,4 @@
 
 ## Validação por Schema - Yup
  - npm install @hookform/resolvers yup
+ - Zod faz a mesma funcionalidade
