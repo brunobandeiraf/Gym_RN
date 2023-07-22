@@ -44,19 +44,19 @@ export function SignUp() {
 
   async function handleSignUp({ name, email, password, password_confirm }: FormDataProps) {
     
+    // - Via fetch
+    // - fetch('http://192.168.10.120:3333/users', {
+    // const response = await fetch('http://192.168.10.120:3333/users', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({ name, email, password })
+    // });
     
-    //fetch('http://192.168.10.120:3333/users', {
-    const response = await fetch('http://192.168.10.120:3333/users', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name, email, password })
-    });
-    
-    const data = await response.json();
-    console.log(data);
+    // const data = await response.json();
+    // console.log(data);
   
 
     //console.log({ name, email, password, password_confirm })

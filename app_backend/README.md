@@ -49,3 +49,7 @@
 ## Validação por Schema - Yup
  - npm install @hookform/resolvers yup
  - Zod faz a mesma funcionalidade
+
+ ## Axios - Cliente HTTP
+ - npm install axios
+ - https://axios-http.com/ptbr/docs/intro
