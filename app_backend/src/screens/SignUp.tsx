@@ -42,19 +42,21 @@ export function SignUp() {
     navigation.goBack();
   }
 
-  function handleSignUp({ name, email, password, password_confirm }: FormDataProps) {
+  async function handleSignUp({ name, email, password, password_confirm }: FormDataProps) {
     
-    //fetch('http://localhost:3333/users', {
-    fetch('http://192.168.10.120:3333/users', {
+    
+    //fetch('http://192.168.10.120:3333/users', {
+    const response = await fetch('http://192.168.10.120:3333/users', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ name, email, password })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data));
+    });
+    
+    const data = await response.json();
+    console.log(data);
   
 
     //console.log({ name, email, password, password_confirm })
