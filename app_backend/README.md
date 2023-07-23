@@ -53,3 +53,8 @@
  ## Axios - Cliente HTTP
  - npm install axios
  - https://axios-http.com/ptbr/docs/intro
+
+ ## AsyncStorage do Expo
+ - npx expo install @react-native-async-storage/async-storage
+ - Persistir com o usuário logado
+ - https://docs.expo.dev/versions/unversioned/sdk/async-storage/?utm_source=google&utm_medium=cpc&utm_content=performancemax&gclid=Cj0KCQjwn_OlBhDhARIsAG2y6zMdWWGzuSaRHrwu_eoA6KUJrWnwasQfObVlDeLOfEAyl0GFQj0xPt0aApf6EALw_wcB

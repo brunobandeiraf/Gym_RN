@@ -12,7 +12,6 @@ export function Routes() {
     const { colors } = useTheme();
 
     const { user } = useAuth();
-    console.log("USUÁRIO LOGADO =>", user);
 
     const theme = DefaultTheme; //definindo a cor padrão do thema
     theme.colors.background = colors.gray[700];
@@ -22,7 +21,9 @@ export function Routes() {
         // não apareça um fundo branco
         <Box flex={1} bg="gray.700">
             <NavigationContainer theme={theme}>
-             {/* <AuthRoutes /> */}
+             {/* <AuthRoutes /> 
+                Se estiver logado, envio para AppRoutes, se não, AuthRoutes
+             */}
              {user.id ? <AppRoutes /> : <AuthRoutes />}
             </NavigationContainer>
         </Box>
