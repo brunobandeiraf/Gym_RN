@@ -9,6 +9,7 @@ export type AuthContextDataProps = {
     // user irá usar o type UserDTO 
     user: UserDTO;
     singIn: (email: string, password: string) => Promise<void>;
+    isLoadingUserStorageData: boolean;
 }
 
 // Tipagem do children
@@ -21,6 +22,8 @@ export const AuthContext = createContext<AuthContextDataProps>({} as AuthContext
 export function AuthContextProvider({ children }: AuthContextProviderProps)  {
     
     const [user, setUser] = useState<UserDTO>({} as UserDTO)
+    const [isLoadingUserStorageData, setIsLoadingUserStorageData] = useState(true); 
+    //isLoadingUserStorageData estado para aguardar o carregamento dos dados do usuário, enquanto verifica se está logado no primeiro acesso
 
     // Responsável por atualizar o useState que atualiza o contexto
     // contexto é a inform para saber os dados do usuário logado
@@ -40,10 +43,16 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
 
     // Recupera o usuário logado e atualiza
     async function loadUserData() {
-        const userLogged = await storageUserGet();
-    
-        if(userLogged) {
-          setUser(userLogged)
+        try {
+            const userLogged = await storageUserGet();
+      
+            if(userLogged) {
+              setUser(userLogged);
+            } 
+        } catch (error) {
+            throw error
+        } finally {
+            setIsLoadingUserStorageData(false);
         }
     }
     
@@ -52,7 +61,11 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
     },[])
 
     return (
-        <AuthContext.Provider value={{ user, singIn }}>
+        <AuthContext.Provider value={{ 
+            user, 
+            singIn,
+            isLoadingUserStorageData
+          }}>
             {children}
         </AuthContext.Provider>
     )
