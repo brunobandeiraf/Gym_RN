@@ -13,6 +13,7 @@ import { AppError } from '@utils/AppError';
 
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
+import { useState } from 'react';
 
 type FormData = {
   email: string;
@@ -21,11 +22,11 @@ type FormData = {
 
 export function SignIn() {
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const { singIn } = useAuth();
-
-  const toas = useToast();
-
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
+  const toast = useToast();
 
   const { control, handleSubmit, formState: { errors } } = useForm<FormData>()
 
@@ -36,17 +37,21 @@ export function SignIn() {
 
    async function handleSignIn({ email, password }: FormData) {
     try {
+      setIsLoading(true);
       await singIn(email, password);
+
     } catch (error) {
       const isAppError = error instanceof AppError;
 
       const title =  isAppError ? error.message : 'Não foi possível entrar. Tente novamente mais tarde.'
 
-      toas.show({
+      toast.show({
         title,
         placement: 'top',
         bgColor: 'red.500'
       })
+
+      setIsLoading(false);
     }
   }
 
@@ -128,9 +133,9 @@ export function SignIn() {
         </Center>
 
         <Button 
-            title="Criar Conta" 
-            variant="outline"
-            onPress={handleNewAccount}
+          title="Acessar" 
+          onPress={handleSubmit(handleSignIn)} 
+          isLoading={isLoading}
         />
       </VStack>
     </ScrollView>
