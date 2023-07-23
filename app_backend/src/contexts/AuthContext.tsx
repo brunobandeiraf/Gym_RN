@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-import { storageAuthTokenSave } from '@storage/storageAuthToken';
+import { storageAuthTokenSave, storageAuthTokenGet } from '@storage/storageAuthToken';
 import { storageUserGet, storageUserRemove, storageUserSave } from '@storage/storageUser';
 
 import { api } from '@services/api';
@@ -30,22 +30,25 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
     //isLoadingUserStorageData estado para aguardar o carregamento dos dados do usuário, enquanto verifica se está logado no primeiro acesso
 
     // Armazena o usuário no storage e o token
-    async function storageUserAndToken(userData: UserDTO, token: string) {
-        try {
-            setIsLoadingUserStorageData(true); // leitura de dados do usuário - tela de loading
+    async function userAndTokenUpdate(userData: UserDTO, token: string) {
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     
-            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        setUser(userData);
+    }        
+    
+    async function storageUserAndTokenSave(userData: UserDTO, token: string) {
+        try {
+            setIsLoadingUserStorageData(true)
 
             await storageUserSave(userData); // salva no storage
             await storageAuthTokenSave(token); // salva o token
-            setUser(userData); // atualiza o hook - useState
+
         } catch (error) {
             throw error
         } finally {
             setIsLoadingUserStorageData(false);
         }
     }
-    
     
     // Responsável por atualizar o useState que atualiza o contexto
     // contexto é a inform para saber os dados do usuário logado
@@ -54,13 +57,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
             const { data } = await api.post('/sessions', { email, password });
 
             if(data.user && data.token) {
-                setUser(data.user);
-                // Armazenando no storage do usuário
-                storageUserSave(data.user);
-                storageUserAndToken(data.user, data.token)
+                await storageUserAndTokenSave(data.user, data.token);
+                userAndTokenUpdate(data.user, data.token)
             }
         } catch (error) {
             throw error
+        } finally {
+            setIsLoadingUserStorageData(false);
         }
     }
 
@@ -80,11 +83,15 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
     // Recupera o usuário logado e atualiza
     async function loadUserData() {
         try {
+            setIsLoadingUserStorageData(true);
+
             const userLogged = await storageUserGet();
-      
-            if(userLogged) {
-              setUser(userLogged);
-            } 
+            const token = await storageAuthTokenGet();
+
+            // Se o token existe e usuário logado
+            if(token && userLogged) {
+                userAndTokenUpdate(userLogged, token);
+            }  
         } catch (error) {
             throw error
         } finally {
