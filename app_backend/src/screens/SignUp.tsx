@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { VStack, Image, Text, Center, Heading, ScrollView, useToast } from "native-base";
 import { useForm, Controller } from 'react-hook-form';
+import { useState } from 'react';
 
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,6 +14,8 @@ import { Button } from "@components/Button";
 
 import { AppError } from '@utils/AppError';
 import { api } from "@services/api";
+
+import { useAuth } from '@hooks/useAuth';
 
 type FormDataProps = {
   name: string;
@@ -31,7 +34,9 @@ password_confirm: yup.string().required('Confirme a senha.').oneOf([yup.ref('pas
 
 export function SignUp() {
 
+  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
+  const { singIn } = useAuth();
 
   // const [name, setName] = useState('');
   // const [email, setEmail] = useState('');
@@ -50,9 +55,17 @@ export function SignUp() {
   async function handleSignUp({ name, email, password, password_confirm }: FormDataProps) {
     
     try {
-      const response = await api.post('/users', { name, email, password });
-      console.log(response.data);
+
+      setIsLoading(true)
+
+      await api.post('/users', { name, email, password });
+      await singIn(email, password)
+      // Após criar conta, redireciona para tela de home (após logar)
+
     } catch (error) {
+      // Se der erro, desativa o loading que está no botão
+      setIsLoading(false);
+
       const isAppError = error instanceof AppError;
 
       // Mensagem de erro que foi tratado ou padrão..."Não foi..."
@@ -219,6 +232,8 @@ export function SignUp() {
               //handleSubmit é a função interna que ativa o hook
               //handleSignUp é a função que recebe
               onPress={handleSubmit(handleSignUp)}
+              isLoading={isLoading}
+              // Ativado o carregamento do botão pelo estado isLoading
             />
           </Center>
 
