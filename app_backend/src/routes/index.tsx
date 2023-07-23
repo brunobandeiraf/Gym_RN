@@ -23,7 +23,7 @@ export function Routes() {
         <Box flex={1} bg="gray.700">
             <NavigationContainer theme={theme}>
              {/* <AuthRoutes /> */}
-             <AuthRoutes />
+             {user.id ? <AppRoutes /> : <AuthRoutes />}
             </NavigationContainer>
         </Box>
     );

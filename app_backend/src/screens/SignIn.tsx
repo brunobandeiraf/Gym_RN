@@ -22,6 +22,7 @@ type FormData = {
 
 export function SignIn() {
 
+  // useState para aparecer quando estiver aguardando o retorno do login
   const [isLoading, setIsLoading] = useState(false)
 
   const { singIn } = useAuth();
@@ -127,7 +128,8 @@ export function SignIn() {
         </Center>
 
         <Center mt={24}> {/* mt - margin-top, mb - margin-bottom*/}
-          <Text color="gray.100" fontSize="sm" mb={3} fontFamily="body">
+          <Text color="gray.100" fontSize="sm" mb={3} fontFamily="body" 
+            onPress={handleNewAccount} >
             Ainda não tem acesso?
           </Text>
         </Center>
