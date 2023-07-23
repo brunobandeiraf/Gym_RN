@@ -1,9 +1,11 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
+import { storageAuthTokenSave } from '@storage/storageAuthToken';
 import { storageUserGet, storageUserRemove, storageUserSave } from '@storage/storageUser';
 
 import { api } from '@services/api';
 import { UserDTO } from "@dtos/UserDTO";
+
 
 export type AuthContextDataProps = {
     // user irá usar o type UserDTO 
@@ -27,16 +29,35 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
     const [isLoadingUserStorageData, setIsLoadingUserStorageData] = useState(true); 
     //isLoadingUserStorageData estado para aguardar o carregamento dos dados do usuário, enquanto verifica se está logado no primeiro acesso
 
+    // Armazena o usuário no storage e o token
+    async function storageUserAndToken(userData: UserDTO, token: string) {
+        try {
+            setIsLoadingUserStorageData(true); // leitura de dados do usuário - tela de loading
+    
+            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+            await storageUserSave(userData); // salva no storage
+            await storageAuthTokenSave(token); // salva o token
+            setUser(userData); // atualiza o hook - useState
+        } catch (error) {
+            throw error
+        } finally {
+            setIsLoadingUserStorageData(false);
+        }
+    }
+    
+    
     // Responsável por atualizar o useState que atualiza o contexto
     // contexto é a inform para saber os dados do usuário logado
     async function singIn(email: string, password: string) {
         try {
             const { data } = await api.post('/sessions', { email, password });
 
-            if(data.user) {
+            if(data.user && data.token) {
                 setUser(data.user);
                 // Armazenando no storage do usuário
-                storageUserSave(data.user)
+                storageUserSave(data.user);
+                storageUserAndToken(data.user, data.token)
             }
         } catch (error) {
             throw error

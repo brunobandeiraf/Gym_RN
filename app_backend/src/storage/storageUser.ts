@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { UserDTO } from '@dtos/UserDTO';
-import { USER_STORAGE } from './storageConfig';
+import { USER_STORAGE } from '@storage/storageConfig';
 
 // Salva os dados de autenticação no Storage do usuário
 export async function storageUserSave(user: UserDTO) {
