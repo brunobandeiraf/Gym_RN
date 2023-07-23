@@ -24,6 +24,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
         avatar: 'bruno.png'
     })
 
+    // Responsável por atualizar o useState que atualiza o contexto
+    // contexto é a inform para saber os dados do usuário logado
     function singIn(email: string, password: string) {
         setUser({
           id: '',
