@@ -1,6 +1,6 @@
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigation } from "@react-navigation/native";
-import { VStack, Image, Text, Center, Heading, ScrollView } from "native-base";
+import { VStack, Image, Text, Center, Heading, ScrollView, useToast } from "native-base";
 
 // Contexto de navegação - sem autenticação
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
@@ -8,6 +8,8 @@ import { useAuth } from '@hooks/useAuth';
 
 import LogoSvg from '@assets/logo.svg';
 import BackgroundImg from '@assets/background.png';
+
+import { AppError } from '@utils/AppError';
 
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
@@ -21,6 +23,8 @@ export function SignIn() {
 
   const { singIn } = useAuth();
 
+  const toas = useToast();
+
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
 
   const { control, handleSubmit, formState: { errors } } = useForm<FormData>()
@@ -30,9 +34,20 @@ export function SignIn() {
     navigation.navigate('signUp');
   }
 
-  function handleSignIn({ email, password }: FormData){
-    //console.log(email, password)
-    singIn(email, password);
+   async function handleSignIn({ email, password }: FormData) {
+    try {
+      await singIn(email, password);
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+
+      const title =  isAppError ? error.message : 'Não foi possível entrar. Tente novamente mais tarde.'
+
+      toas.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      })
+    }
   }
 
   return (
