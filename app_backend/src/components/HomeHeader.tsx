@@ -4,17 +4,24 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 // MaterialIcons - biblioteca de itens
 // para funcionar precisa do Icon 
+import { useAuth } from '@hooks/useAuth';
+
+import defaulUserPhotoImg from '@assets/userPhotoDefault.png'; 
 
 import { UserPhoto } from './UserPhoto';
 
 export function HomeHeader() {
+
+  const { user, signOut } = useAuth();
+
   return (
     // HStack posiciona na horizontal
     // VStack posiciona na vertical
     <HStack bg="gray.600" pt={16} pb={5} px={8} alignItems="center">
        
        <UserPhoto 
-        source={{ uri: 'https://github.com/brunobandeiraf.png' }}
+        //  Se tiver imagem armazenada será retornada, se não, será a imagem padrão
+        source={user.avatar  ? { uri: user.avatar } : defaulUserPhotoImg}
         size={16}
         alt="Imagem do usuário"
         mr={4} //margin-right
@@ -26,11 +33,11 @@ export function HomeHeader() {
         </Text>
 
         <Heading color="gray.100" fontSize="md" fontFamily="heading">
-          Bruno Bandeira
+          {user.name}
         </Heading>
       </VStack>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={signOut}>
         <Icon 
           as={MaterialIcons}
           name="logout"
