@@ -11,6 +11,7 @@ import { AppRoutes } from "./app.routes";
 export function Routes() {
     const { colors } = useTheme();
 
+    // useContext acessa os contextos da aplicação
     const contextData = useContext(AuthContext);
     console.log("USUÁRIO LOGADO =>", contextData);
 
