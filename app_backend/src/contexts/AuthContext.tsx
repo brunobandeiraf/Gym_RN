@@ -7,6 +7,7 @@ import { UserDTO } from "@dtos/UserDTO";
 
 export type AuthContextDataProps = {
     // user irá usar o type UserDTO 
+    // compartilha a autenticação e logout
     user: UserDTO;
     singIn: (email: string, password: string) => Promise<void>;
     signOut: () => Promise<void>;
@@ -42,15 +43,16 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
         }
     }
 
+    // Função para sair da aplicação
     async function signOut() {
         try {
-            setIsLoadingUserStorageData(true);
-            setUser({} as UserDTO);
-            await storageUserRemove();
+            setIsLoadingUserStorageData(true); // ativa o looding de carregamento
+            setUser({} as UserDTO); // useState useUser como vazio
+            await storageUserRemove(); // Remover o usuário do storage
         } catch (error) {
             throw error;
         } finally {
-            setIsLoadingUserStorageData(false);
+            setIsLoadingUserStorageData(false); // Finalizar carregamento
         }
     }
 
