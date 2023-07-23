@@ -1,8 +1,10 @@
+import { Controller, useForm } from 'react-hook-form';
 import { useNavigation } from "@react-navigation/native";
 import { VStack, Image, Text, Center, Heading, ScrollView } from "native-base";
 
 // Contexto de navegação - sem autenticação
 import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
+import { useAuth } from '@hooks/useAuth';
 
 import LogoSvg from '@assets/logo.svg';
 import BackgroundImg from '@assets/background.png';
@@ -10,13 +12,27 @@ import BackgroundImg from '@assets/background.png';
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 
+type FormData = {
+  email: string;
+  password: string;
+}
+
 export function SignIn() {
 
+  const { singIn } = useAuth();
+
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
+
+  const { control, handleSubmit, formState: { errors } } = useForm<FormData>()
 
   // Função para chamar rota da tela signUp
   function handleNewAccount() {
     navigation.navigate('signUp');
+  }
+
+  function handleSignIn({ email, password }: FormData){
+    //console.log(email, password)
+    singIn(email, password);
   }
 
   return (
@@ -46,18 +62,48 @@ export function SignIn() {
                   Acesse a conta
               </Heading>
 
-              <Input 
+              {/* <Input 
                 placeholder="E-mail" 
                 keyboardType="email-address"
                 autoCapitalize="none" //tudo em minísculo
-
+              /> */}
+              <Controller 
+                control={control}
+                name="email"
+                rules={{ required: 'Informe o e-mail' }}
+                
+                render={({ field: { onChange } }) => (
+                  <Input 
+                    placeholder="E-mail" 
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    onChangeText={onChange}
+                    errorMessage={errors.email?.message}
+                  />
+                )}
               />
-              <Input 
-                placeholder="Senha" 
-                secureTextEntry //input de senha
+                
+               {/* <Input 
+                 placeholder="Senha" 
+                 secureTextEntry //input de senha
+               /> */}
+              <Controller 
+                control={control}
+                name="password"
+                rules={{ required: 'Informe a senha' }}
+                
+                render={({ field: { onChange } }) => (
+                  <Input 
+                    placeholder="Senha" 
+                    secureTextEntry
+                    onChangeText={onChange}
+                    errorMessage={errors.password?.message}
+                  />
+                )}
               />
-
-              <Button title="Acessar" />
+              
+               {/* <Button title="Acessar" /> */}
+               <Button title="Acessar" onPress={handleSubmit(handleSignIn)} />
         </Center>
 
         <Center mt={24}> {/* mt - margin-top, mb - margin-bottom*/}
