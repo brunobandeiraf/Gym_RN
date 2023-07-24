@@ -3,6 +3,7 @@ import { Heading, HStack, Image, Text, VStack, Icon } from 'native-base';
 
 import { Entypo } from '@expo/vector-icons';
 import { ExerciseDTO } from '@dtos/ExerciseDTO';
+import { api } from '@services/api';
 
 // TouchableOpacityProps é a tipagem do TouchableOpacity
 type Props = TouchableOpacityProps & {
@@ -16,7 +17,10 @@ export function ExerciseCard({ data, ...rest }: Props) {
         {/* bg - background  do card*/}
       <HStack bg="gray.500" alignItems="center" p={2} pr={4} rounded="md" mb={3}>
         <Image 
-          source={{ uri: 'http://conteudo.imguol.com.br/c/entretenimento/0c/2019/12/03/remada-unilateral-com-halteres-1575402100538_v2_600x600.jpg' }}
+          //api.defaults.baseURL - endereço do servidor
+          //thumb é uma imagem menor
+          // demo é uma imagem maior
+          source={{ uri: `${api.defaults.baseURL}/exercise/thumb/${data.thumb}` }}
           alt="Imagem do exercício"
           w={16}
           h={16}
