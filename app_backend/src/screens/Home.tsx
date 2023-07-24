@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { FlatList, Heading, HStack, Text, useToast, VStack } from 'native-base';
 
 import { api } from '@services/api';
@@ -14,7 +14,9 @@ export function Home() {
 
   //const [groups, setGroups] = useState(['Costas', 'Bíceps', 'Tríceps', 'ombro']);
   const [groups, setGroups] = useState<string[]>([]);
-  const [exercises, setExercises] = useState(['Puxada frontal', 'Remada curvada', 'Remada unilateral', 'Levantamento terras']);
+  //const [exercises, setExercises] = useState(['Puxada frontal', 'Remada curvada', 'Remada unilateral', 'Levantamento terras']);
+  const [exercises, setExercises] = useState([]);
+  // Grupo selecionado
   const [groupSelected, setGroupSelected] = useState('Costas');
 
   const toast = useToast();
@@ -24,10 +26,11 @@ export function Home() {
   }
 
 
+  //  Buscar os grupos musculares
   async function fetchGroups() {
     try {
       const response = await api.get('/groups');
-      setGroups(response.data);
+      setGroups(response.data); // atualiza o useState
 
     } catch (error) {
       const isAppError = error instanceof AppError;
@@ -41,10 +44,37 @@ export function Home() {
     }
   }
 
+  //useEffect para ficar sempre atualizando o estado
   useEffect(() => {
     fetchGroups();
   },[])
-  
+
+
+  // Busca os exercícios dos grupos
+  async function fecthExercisesByGroup() {
+    try {
+      const response = await api.get(`/exercises/bygroup/${groupSelected}`);
+      console.log(response.data);
+
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError ? error.message : 'Não foi possível carregar os exercícios';
+
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.500'
+      })
+    }
+  }
+  // useFocusEffect e useCallback percebe quando a home recebe o foco para atualizar a lista
+  // hook disparado após um evento
+  useFocusEffect(
+    useCallback(() => {
+      fecthExercisesByGroup()
+    },[groupSelected])
+  )
+
   return (
     <VStack flex={1}>
       <HomeHeader />
