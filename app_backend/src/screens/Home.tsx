@@ -120,7 +120,10 @@ export function Home() {
           data={exercises} // Lista de exercícios
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <ExerciseCard onPress={handleOpenExerciseDetails} /> // Cada um dos card
+            <ExerciseCard 
+              onPress={handleOpenExerciseDetails}
+              data={item}
+            /> // Cada um dos card
           )}
 
           showsVerticalScrollIndicator={false}

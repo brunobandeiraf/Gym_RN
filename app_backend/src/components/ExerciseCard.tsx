@@ -2,13 +2,15 @@ import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { Heading, HStack, Image, Text, VStack, Icon } from 'native-base';
 
 import { Entypo } from '@expo/vector-icons';
+import { ExerciseDTO } from '@dtos/ExerciseDTO';
 
 // TouchableOpacityProps é a tipagem do TouchableOpacity
 type Props = TouchableOpacityProps & {
+  data: ExerciseDTO;
 };
 
 // ...rest significa que vai acessar tudo que existe dentro da Props
-export function ExerciseCard({ ...rest }: Props) {
+export function ExerciseCard({ data, ...rest }: Props) {
   return (
     <TouchableOpacity {...rest}>
         {/* bg - background  do card*/}
@@ -26,12 +28,12 @@ export function ExerciseCard({ ...rest }: Props) {
         {/* flex={1} para ocupar todo espaço e um ficar de cada lado */}
         <VStack flex={1}>
             <Heading fontSize="lg" color="white" fontFamily="heading">
-                Remanda unilateral
+              {data.name}
             </Heading>
         
             {/* numberOfLines = define a qtd máxima de linhas */}
             <Text fontSize="sm" color="gray.200" mt={1} numberOfLines={2}>
-                3 séries x 12 repetições
+              {data.series} séries x {data.repetitions} repetições
             </Text>
         </VStack>
 
