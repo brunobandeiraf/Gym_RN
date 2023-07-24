@@ -13,3 +13,8 @@ export async function storageAuthTokenGet() {
 
   return token;
 }
+
+// Remove o token do usuário após logout
+export async function storageAuthTokenRemove() {
+  await AsyncStorage.removeItem(AUTH_STORAGE);
+}

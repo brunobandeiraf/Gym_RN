@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-import { storageAuthTokenSave, storageAuthTokenGet } from '@storage/storageAuthToken';
+import { storageAuthTokenSave, storageAuthTokenGet, storageAuthTokenRemove } from '@storage/storageAuthToken';
 import { storageUserGet, storageUserRemove, storageUserSave } from '@storage/storageUser';
 
 import { api } from '@services/api';
@@ -36,9 +36,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
         setUser(userData);
     }        
     
+    // Salvar usuário no storage e token
     async function storageUserAndTokenSave(userData: UserDTO, token: string) {
         try {
-            setIsLoadingUserStorageData(true)
+            setIsLoadingUserStorageData(true) // busca a tela de loading
 
             await storageUserSave(userData); // salva no storage
             await storageAuthTokenSave(token); // salva o token
@@ -73,6 +74,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps)  {
             setIsLoadingUserStorageData(true); // ativa o looding de carregamento
             setUser({} as UserDTO); // useState useUser como vazio
             await storageUserRemove(); // Remover o usuário do storage
+            await storageAuthTokenRemove();
         } catch (error) {
             throw error;
         } finally {
