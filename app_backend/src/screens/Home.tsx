@@ -11,14 +11,17 @@ import { HomeHeader } from '@components/HomeHeader';
 import { ExerciseCard } from '@components/ExerciseCard';
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
 
+import { Loading } from '@components/Loading';
+
 export function Home() {
+  const [isLoading, setIsLoading] = useState(true);
 
   //const [groups, setGroups] = useState(['Costas', 'Bíceps', 'Tríceps', 'ombro']);
   const [groups, setGroups] = useState<string[]>([]);
   //const [exercises, setExercises] = useState(['Puxada frontal', 'Remada curvada', 'Remada unilateral', 'Levantamento terras']);
   const [exercises, setExercises] = useState<ExerciseDTO[]>([]);
   // Grupo selecionado
-  const [groupSelected, setGroupSelected] = useState('Costas');
+  const [groupSelected, setGroupSelected] = useState('bíceps');
 
   const toast = useToast();
   const navigation = useNavigation<AppNavigatorRoutesProps>();
@@ -54,6 +57,7 @@ export function Home() {
   // Busca os exercícios dos grupos
   async function fecthExercisesByGroup() {
     try {
+      setIsLoading(true);
       const response = await api.get(`/exercises/bygroup/${groupSelected}`);
       setExercises(response.data);
 
@@ -66,6 +70,8 @@ export function Home() {
         placement: 'top',
         bgColor: 'red.500'
       })
+    }finally {
+      setIsLoading(false);
     }
   }
   // useFocusEffect e useCallback percebe quando a home recebe o foco para atualizar a lista
@@ -102,39 +108,42 @@ export function Home() {
         minH={10} // Altura mínima
       />
 
-      <VStack px={8}> 
-       {/* justifyContent="space-between" - cada um em um canto 
-        mb - margin-bottom 
-        */}
-        <HStack justifyContent="space-between" mb={5}> 
-          <Heading color="gray.200" fontSize="md" fontFamily="heading">
-            Exercícios
-          </Heading>
+      {
+        // isLoading é true, carrega a tela de loading, se não, o restante
+        isLoading ? <Loading/> :
+        <VStack px={8}> 
+        {/* justifyContent="space-between" - cada um em um canto 
+          mb - margin-bottom 
+          */}
+          <HStack justifyContent="space-between" mb={5}> 
+            <Heading color="gray.200" fontSize="md" fontFamily="heading">
+              Exercícios
+            </Heading>
 
-          <Text color="gray.200" fontSize="sm">
-            {exercises.length}
-          </Text>
-        </HStack>
+            <Text color="gray.200" fontSize="sm">
+              {exercises.length}
+            </Text>
+          </HStack>
 
-        <FlatList 
-          data={exercises} // Lista de exercícios
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <ExerciseCard 
-              onPress={handleOpenExerciseDetails}
-              data={item}
-            /> // Cada um dos card
-          )}
+          <FlatList 
+            data={exercises} // Lista de exercícios
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <ExerciseCard 
+                onPress={handleOpenExerciseDetails}
+                data={item}
+              /> // Cada um dos card
+            )}
 
-          showsVerticalScrollIndicator={false}
-          // Add um espaço de padding ao final para usuário saber que acabou a lista
-          _contentContainerStyle={{
-            paddingBottom: 20
-          }}
-        />
+            showsVerticalScrollIndicator={false}
+            // Add um espaço de padding ao final para usuário saber que acabou a lista
+            _contentContainerStyle={{
+              paddingBottom: 20
+            }}
+          />
 
-      </VStack>
-
+        </VStack>
+      }
     </VStack>
   );
 }
